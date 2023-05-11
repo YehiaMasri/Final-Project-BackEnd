@@ -19,17 +19,17 @@ const ProductSchema = new Schema(
       type: Number,
     },
 
-    is_available: {
-      type: Boolean,
-      default: true,
-    },
+    // is_available: {
+    //   type: Boolean,
+    //   default: true,
+    // },
     review: {
       type: String,
     },
-    onPage: {
-      type: Boolean,
-      default: true,
-    },
+    // onPage: {
+    //   type: Boolean,
+    //   default: true,
+    // },
     category_id: {
       type: Schema.Types.ObjectId,
       ref: "Category",

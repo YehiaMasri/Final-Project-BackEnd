@@ -35,6 +35,10 @@ const orderSchema = new Schema(
       type: String,
       trim: true,
     },
+    date: {
+      type: Date,
+      get: (v) => v.toISOString(),
+    },
     // total: {
     // 	type: Number,
     // 	required: true,
