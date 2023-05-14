@@ -39,6 +39,7 @@ const ProductSchema = new Schema(
       },
     },
   },
+  { strictPopulate: false },
   {
     timestamps: true,
     collection: "Product",

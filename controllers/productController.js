@@ -79,22 +79,22 @@ class product_controllers {
 		}
 	}
 	// get user products
-	async getUserProducts(req, res) {
-		try {
-			let user_id = req.body.user_id;
-			const { page, limit } = req.query;
-			const options = {
-				page: parseInt(page, 10) || 1,
-				limit: parseInt(limit, 3) || 3,
-			};
-			const products = await ProductModel.paginate({ user_id }, options);
-			res.status(200).json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: error.message,
-			});
-		}
-	}
+	// async getUserProducts(req, res) {
+	// 	try {
+	// 		let user_id = req.body.user_id;
+	// 		const { page, limit } = req.query;
+	// 		const options = {
+	// 			page: parseInt(page, 10) || 1,
+	// 			limit: parseInt(limit, 3) || 3,
+	// 		};
+	// 		const products = await ProductModel.paginate({ user_id }, options);
+	// 		res.status(200).json(products);
+	// 	} catch (error) {
+	// 		res.status(500).json({
+	// 			message: error.message,
+	// 		});
+	// 	}
+	// }
 	// get single product
 	getSingleProduct(req, res) {
 		try {

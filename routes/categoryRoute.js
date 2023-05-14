@@ -14,7 +14,10 @@ const router = express.Router();
 router.get("/", getAllCategory);
 
 // add category
-router.post("/", verifyUser, admin, addCategory);
+router.post("/", 
+// verifyUser,
+//  admin,
+  addCategory);
 
 // get category by id
 router.get("/:categoryId", getCategoryById);

@@ -13,7 +13,7 @@ router.get("/category/:categoryId", productController.getProductByCategory);
 // get One Product
 router.get("/:id", productController.getSingleProduct);
 // get user products
-router.post("/user-product", productController.getUserProducts);
+// router.post("/user-product", productController.getUserProducts);
 // Add one product
 router.post("/create",  productController.addProduct);
 // edit one product
