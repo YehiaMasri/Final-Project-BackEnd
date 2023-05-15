@@ -9,6 +9,8 @@ import socialRoute from "./routes/socialMediaRoute.js"
 import orderRouter from "./routes/orderRoute.js";
 import productRoute from "./routes/productRoute.js";
 import categoryRoute from "./routes/categoryRoute.js"
+import filmRoute from "./routes/filmRoute.js";
+import palystationRoute from "./routes/playstationRoute.js";
 
 dotenv.config();
 connectToDataBase();
@@ -38,3 +40,5 @@ app.use("/socialmedia", socialRoute);
 app.use("/order", orderRouter);
 app.use("/product", productRoute);
 app.use ("/category", categoryRoute);
+app.use("/film", filmRoute);
+app.use("/game", palystationRoute);
