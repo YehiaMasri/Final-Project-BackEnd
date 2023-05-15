@@ -48,7 +48,7 @@ export const getSocialMediaById = async (req, res) => {
 export const updateSocialMedia = async (req, res) => {
 	try {
 		SocialMedia.findOneAndUpdate(
-			{ _id: '6454f8803007b79869b414e4' },
+			{ _id: '6461e47eb1b242cddba7656f' },
 			req.body,
 			{ new: true },
 		).then((response) => {
