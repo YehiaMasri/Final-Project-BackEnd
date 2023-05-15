@@ -24,5 +24,6 @@ const FilmSchema = new Schema(
 );
 
 const filmModel = model("Film", FilmSchema);
+FilmSchema.plugin(mongoosePaginate);
 
 export default filmModel;
