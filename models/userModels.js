@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 const { Schema, model } = mongoose;
@@ -17,6 +16,7 @@ const userSchema = new Schema(
       type: String,
       required: "username is required",
       trim: true,
+      unique:true,
     },
     phoneNumber: {
       type: String,
@@ -44,10 +44,14 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
-    role: {
-      type: String,
-      enum: ["user", "admin", "superAdmin"],
-      default: "user",
+    // role: {
+    //   type: String,
+    //   enum: ["user", "admin"],
+    //   default: "user",
+    // },
+    isAdmin:{
+      type:Boolean,
+      default:false
     },
   },
   {
@@ -56,22 +60,8 @@ const userSchema = new Schema(
   }
 );
 
-// hashing the password
-userSchema.pre("save", function (next) {
-  bcrypt
-    .genSalt(10)
-    .then((salt) => bcrypt.hash(this.password, salt))
-    .then((hashPassword) => {
-      this.password = hashPassword;
-      next();
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
-
 // adding the pagination plugin
 userSchema.plugin(mongoosePaginate);
 
-const User = model("User", userSchema);
-export default User;
+const UserModel = model("User", userSchema);
+export default UserModel;

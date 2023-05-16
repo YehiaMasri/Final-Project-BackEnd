@@ -6,7 +6,7 @@ import {
   updateCategoById,
   deleteCategory,
 } from "../controllers/categoryController.js";
-import { admin, superAdmin} from "../middleware/auth.js";
+import { admin} from "../middleware/auth.js";
 import verifyUser from "../middleware/auth.js";
 
 const router = express.Router();

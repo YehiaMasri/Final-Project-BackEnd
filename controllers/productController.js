@@ -1,4 +1,5 @@
 import ProductModel from "../models/productModels.js";
+import jwt from "jsonwebtoken";
 
 class product_controllers {
 	// add product
