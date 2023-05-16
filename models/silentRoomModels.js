@@ -4,10 +4,6 @@ const { Schema, model } = mongoose;
 
 const silentRoomSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     capacity: {
       type: Number,
       required: true,
@@ -16,6 +12,13 @@ const silentRoomSchema = new Schema(
       type: String,
       require: true,
     },
+    seat_available: {
+        type: Number
+    },  
+    is_Available:{
+      type:Boolean,
+      default: true
+    }
   },
   {
     collection: SilentRoom,
