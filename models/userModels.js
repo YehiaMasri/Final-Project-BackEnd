@@ -53,6 +53,12 @@ const userSchema = new Schema(
       type:Boolean,
       default:false
     },
+    bookedSections: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Section'
+      }
+    ]
   },
   {
     timestamps: true,

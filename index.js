@@ -5,12 +5,13 @@ import cors from "cors";
 import morgan from "morgan";
 import connectToDataBase from "./dataBase/dataBase.js";
 import userRouter from "./routes/userRoute.js";
-import socialRoute from "./routes/socialMediaRoute.js"
+import socialRoute from "./routes/socialMediaRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import productRoute from "./routes/productRoute.js";
-import categoryRoute from "./routes/categoryRoute.js"
+import categoryRoute from "./routes/categoryRoute.js";
 import filmRoute from "./routes/filmRoute.js";
 import palystationRoute from "./routes/playstationRoute.js";
+import roomRoute from "./routes/entertainmentRoute.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -26,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 app.use(cors());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.listen(
   PORT,
@@ -38,9 +39,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRouter);
+app.use("/room", roomRoute);
 app.use("/socialmedia", socialRoute);
 app.use("/order", orderRouter);
 app.use("/product", productRoute);
-app.use ("/category", categoryRoute);
+app.use("/category", categoryRoute);
 app.use("/film", filmRoute);
 app.use("/game", palystationRoute);
