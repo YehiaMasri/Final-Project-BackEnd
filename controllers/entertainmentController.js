@@ -64,6 +64,48 @@ export const getRoomById = async (req, res, next) => {
   }
 };
 
+// export const bookSection = async (req, res) => {
+//   try {
+//     const { userId, roomId } = req.body;
+
+//     const user = await User.findById(userId).populate('bookedSections');
+//     const section = await Room.findById(roomId).populate({
+//       path: 'bookings.user',
+//       populate: {
+//         path: 'bookedSections',
+//         model: 'Room'
+//       }
+//     }).populate('bookedSections');
+
+//     if (!user || !section) {
+//       return res.status(404).json({ message: "User or section not found" });
+//     }
+
+//     const booking = {
+//       user: user._id,
+//       bookedAt: new Date(),
+//     };
+
+//     section.bookings.push(booking);
+//     section.seat_available--;
+
+//     await section.save();
+
+//     user.bookedSections.push(section);
+//     await user.save();
+
+//     // Populate user and section data in the response
+//     const populatedUser = await User.populate(user, { path: 'bookedSections' });
+//     const populatedSection = await Room.populate(section, { path: 'bookings.user' });
+
+//     return res
+//       .status(200)
+//       .json({ message: "Section booked successfully", section: populatedSection, user: populatedUser });
+//   } catch (error) {
+//     return res.status(500).json({ message: "Error booking section", error });
+//   }
+// };
+
 export const bookSection = async (req, res) => {
   try {
     const { userId, roomId } = req.body;
@@ -72,12 +114,12 @@ export const bookSection = async (req, res) => {
     const section = await Room.findById(roomId);
 
     if (!user || !section) {
-      return res.status(404).json({ message: "User or section not found" });
+      return res.status(404).json({ message: 'User or section not found' });
     }
 
     const booking = {
       user: user._id,
-      bookedAt: new Date(),
+      bookedAt: new Date()
     };
 
     section.bookings.push(booking);
@@ -88,10 +130,8 @@ export const bookSection = async (req, res) => {
     user.bookedSections.push(section);
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Section booked successfully", section });
+    return res.status(200).json({ message: 'Section booked successfully', section});
   } catch (error) {
-    return res.status(500).json({ message: "Error booking section", error });
+    return res.status(500).json({ message: 'Error booking section', error });
   }
 };

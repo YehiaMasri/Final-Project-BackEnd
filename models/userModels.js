@@ -65,7 +65,10 @@ const userSchema = new Schema(
     collection: "User",
   }
 );
-
+userSchema.pre(/^find/, function (next) {
+  this.populate('bookedSections');
+  next();
+});
 // adding the pagination plugin
 userSchema.plugin(mongoosePaginate);
 

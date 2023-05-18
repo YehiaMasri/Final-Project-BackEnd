@@ -44,5 +44,11 @@ const sectionSchema = new mongoose.Schema(
   }
 );
 
+sectionSchema.pre(/^find/, function (next) {
+  this.populate('bookings.user');
+  next();
+});
+
+
 const sectionModel = model("Section", sectionSchema);
 export default model("Section", sectionSchema);

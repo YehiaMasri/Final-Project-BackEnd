@@ -19,6 +19,6 @@ router.delete("/:id", verifyUser, verifyAdmin, deleteUser);
 router.get("/", getAllUser);
 router.get("/:id", verifyUser, verifyAdmin, getUserById);
 router.put("/:id", verifyUser, verifyAdmin, updateUser);
-router.get("/:userId/booked-sections", verifyUser, getBookedSections);
+router.get("/:id/booked_sections",  verifyUser, getBookedSections);
 
 export default router;
