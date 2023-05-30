@@ -44,11 +44,11 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
-    // role: {
-    //   type: String,
-    //   enum: ["user", "admin"],
-    //   default: "user",
-    // },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     isAdmin:{
       type:Boolean,
       default:false

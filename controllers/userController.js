@@ -61,30 +61,24 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const getAllUser = async (req, res, next) => {
+export const getAllUser = async (req,res,next)=>{
   try {
+    console.log("hello")
     const users = await User.find({});
-    if (!users) {
-      return res.status(404).json({ message: "users Not Found" });
-    }
     res.status(200).json(users);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({message: err.message});
   }
-};
+}
 
-export const getUserById = async (req, res, next) => {
+export const getUserById = async (req,res,next)=>{
   try {
-    const id = req.params.id;
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({ message: "User Not Found" });
-    }
-    return res.status(200).json({ success: true, user });
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({message: err.message});
   }
-};
+}
 
 export const updateUser = async (req, res, next) => {
   try {
@@ -125,3 +119,20 @@ export const getBookedSections = async (req, res) => {
       .json({ message: "Error fetching booked sections", error });
   }
 };
+
+// check if the user has a token and is logged in
+export function isLoggedIn(req, res, next) {
+	let token = req.headers['access_token'] || req.cookies["access_token"]
+  console.log(token)
+	if (!token) {
+
+		return res.status(403).json({ success: false, message: 'no' });
+	} else {
+		try {
+			const decoded = jwt.verify(token, process.env.SECRET_KEY);
+			res.status(200).json({ success: true, message: decoded });
+		} catch (err) {
+			return res.status(401).send(err.message);
+		}
+	}
+}

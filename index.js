@@ -6,13 +6,15 @@ import morgan from "morgan";
 import connectToDataBase from "./dataBase/dataBase.js";
 import userRouter from "./routes/userRoute.js";
 import socialRoute from "./routes/socialMediaRoute.js";
-import orderRouter from "./routes/orderRoute.js";
+import orderRouter from "./routes/orderRoute.js"; 
 import productRoute from "./routes/productRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import filmRoute from "./routes/filmRoute.js";
 import palystationRoute from "./routes/playstationRoute.js";
 import roomRoute from "./routes/entertainmentRoute.js";
 import cookieParser from "cookie-parser";
+import messageRouter from "./routes/messageRoute.js";
+
 
 dotenv.config();
 connectToDataBase();
@@ -26,6 +28,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -46,3 +49,5 @@ app.use("/product", productRoute);
 app.use("/category", categoryRoute);
 app.use("/film", filmRoute);
 app.use("/game", palystationRoute);
+app.use("/message" , messageRouter);
+

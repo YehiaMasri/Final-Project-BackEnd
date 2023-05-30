@@ -1,6 +1,7 @@
 import express from "express";
 import {
   login,
+  isLoggedIn,
   register,
   deleteUser,
   getAllUser,
@@ -15,8 +16,9 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
+router.get("/is-logged-in",verifyUser, isLoggedIn )
 router.delete("/:id", verifyUser, verifyAdmin, deleteUser);
-router.get("/", getAllUser);
+router.get("/",verifyUser, verifyAdmin, getAllUser);
 router.get("/:id", verifyUser, verifyAdmin, getUserById);
 router.put("/:id", verifyUser, verifyAdmin, updateUser);
 router.get("/:id/booked_sections",  verifyUser, getBookedSections);

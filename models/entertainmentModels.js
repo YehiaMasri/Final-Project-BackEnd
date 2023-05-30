@@ -19,10 +19,14 @@ const sectionSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    description:{
+      type: String,
+    },
     price_per_hour: {
       type: Number,
       required: true,
     },
+    roomNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
 
     bookings: [
       {

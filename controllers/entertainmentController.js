@@ -1,11 +1,12 @@
 import User from "../models/userModels.js";
 import Room from "../models/entertainmentModels.js";
 
-export const creatRoom = async (req, res, next) => {
+export const createRoom = async (req, res, next) => {
   const newRoom = new Room(req.body);
+
   try {
-    const room = await newRoom.save();
-    res.status(200).json(room);
+    const savedRoom = await newRoom.save();
+    res.status(200).json(savedRoom);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -13,11 +14,8 @@ export const creatRoom = async (req, res, next) => {
 
 export const deleteRoom = async (req, res, next) => {
   try {
-    let { id } = req.params;
-    const delRoom = await Room.findByIdAndDelete({ id });
-    res
-      .status(200)
-      .json({ message: "Room deleted successfully", response: delRoom });
+    await Room.findByIdAndDelete(req.params.id);
+    res.status(200).json("Room has been deleted.");
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -25,26 +23,23 @@ export const deleteRoom = async (req, res, next) => {
 
 export const editRoom = async (req, res, next) => {
   try {
-    const editRoom = await Room.findByIdAndUpdate(
-      req.params.roomid,
+    const editroom = await Room.findByIdAndUpdate(
+      req.params.id,
       { $set: req.body },
       { new: true }
     );
-    if (!editRoom) {
-      res.status(404).json({ message: "Room not found" });
-      res.status(200).json({ message: "Room updated successfully" });
-    }
+    res.status(200).json(editroom);
   } catch (err) {
-    res.status(500).json(err.message);
+    next(err);
   }
 };
 
 export const getRooms = async (req, res, next) => {
+  const { min, max, ...others } = req.query;
   try {
-    const rooms = await Room.find({});
-    if (!rooms) {
-      res.status(404).json({ message: "Rooms are not found" });
-    }
+    const rooms = await Room.find({
+      ...others,
+    })
     res.status(200).json(rooms);
   } catch (err) {
     res.status(500).json(err.message);
@@ -53,11 +48,7 @@ export const getRooms = async (req, res, next) => {
 
 export const getRoomById = async (req, res, next) => {
   try {
-    let id = req.params.id;
-    const room = await Room.find({ id });
-    if (!room) {
-      res.status(404).json({ message: "Room not found" });
-    }
+    const room = await Room.findById(req.params.id);
     res.status(200).json(room);
   } catch (err) {
     res.status(500).json(err.message);

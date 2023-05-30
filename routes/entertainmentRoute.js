@@ -1,7 +1,7 @@
 import express from "express";
 import {
   bookSection,
-  creatRoom,
+  createRoom,
   deleteRoom,
   editRoom,
   getRoomById,
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/", getRooms);
 router.get("/:id", getRoomById);
-router.post("/addroom", verifyAdmin, creatRoom);
+router.post("/addroom", verifyAdmin, createRoom);
 router.post("/book", verifyUser, bookSection);
 router.put("/:id", verifyAdmin, editRoom);
 router.delete("/:id", verifyAdmin, deleteRoom);
