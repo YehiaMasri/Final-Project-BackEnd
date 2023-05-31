@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 // GET /orders
-router.get('/', getAllOrders);
+router.get('/order', getAllOrders);
 
 // POST /orders
 router.post('/', createOrder);

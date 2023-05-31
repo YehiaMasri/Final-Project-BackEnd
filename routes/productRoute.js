@@ -8,7 +8,7 @@ import { verifyAdmin, verifyUser } from "../middleware/auth.js";
 import upload from "../middleware/uploadImage.js";
 
 // get All products
-router.get("/", productController.getAllProducts);
+router.get("/products", productController.getAllProducts);
 // get product by category:id
 router.get("/category/:categoryId", productController.getProductByCategory);
 // get One Product
