@@ -11,9 +11,9 @@ const router = express.Router();
 router.get('/', getAllFilm);
 
 //add film 
-router.post('/',verifyToken, admin, addFilm);
+router.post('/', addFilm);
 
 //delete film 
-router.delete('/:id',verifyToken,admin, deleteFilm);
+router.delete('/:id', deleteFilm);
 
 export default router;

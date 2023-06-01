@@ -14,15 +14,15 @@ const router = express.Router();
 router.get("/", getAllCategory);
 
 // add category
-router.post("/", verifyUser,verifyToken, admin, addCategory);
+router.post("/",  addCategory);
 
 // get category by id
 router.get("/:categoryId", getCategoryById);
 
 // update category by id
-router.put("/:categoryId", verifyUser,verifyToken, admin, updateCategoById);
+router.put("/:categoryId",  updateCategoById);
 
 //delete category
-router.delete("/:categoryId", verifyUser,verifyToken, admin, deleteCategory);
+router.delete("/:categoryId",  deleteCategory);
 
 export default router;

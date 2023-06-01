@@ -20,9 +20,9 @@ router.post('/', createOrder);
 router.get('/:orderId', getOrderById);
 
 // PUT /orders/:orderId
-router.put('/:orderId',verifyUser, verifyToken, admin, updateOrder);
+router.put('/:orderId', updateOrder);
 
 // DELETE /orders/:orderId
-router.delete('/:orderId',verifyToken, admin, deleteOrder);
+router.delete('/:orderId', deleteOrder);
 
 export default router;

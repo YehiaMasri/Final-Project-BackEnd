@@ -13,7 +13,7 @@ router.get("/", getAllMessages);
 
 router.post("/", addNewMessage);
 
-router.delete("/:id",verifyToken,admin, deleteMessage);
+router.delete("/:id", deleteMessage);
 
 export default router;
 

@@ -12,14 +12,14 @@ router.get("/products", productController.getAllProducts);
 // get product by category:id
 router.get("/category/:categoryId", productController.getProductByCategory);
 // get One Product
-router.get("/:id",verifyToken, admin, productController.getSingleProduct);
+router.get("/:id", productController.getSingleProduct);
 // get user products
 // router.post("/user-product", productController.getUserProducts);
 // Add one product
-router.post("/create",verifyToken, admin, upload, productController.addProduct);
+router.post("/create", upload, productController.addProduct);
 // edit one product
-router.put("/edit/:id",verifyToken, admin,  productController.editProduct);
+router.put("/edit/:id",  productController.editProduct);
 // delete one product
-router.delete("/delete/:id",verifyToken, admin, productController.deleteProduct);
+router.delete("/delete/:id", productController.deleteProduct);
 
 export default router;
