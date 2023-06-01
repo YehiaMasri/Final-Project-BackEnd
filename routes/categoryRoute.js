@@ -6,23 +6,23 @@ import {
 	updateCategoById,
 	deleteCategory,
 } from "../controllers/categoryController.js";
-// import  verifyAdmin from "../middleware/auth.js";
+// import  admin from "../middleware/auth.js";
 // import verifyUser from "../middleware/auth.js";
-import { verifyAdmin, verifyUser, verifyToken } from "../middleware/auth.js";
+import { admin, verifyUser, verifyToken } from "../middleware/auth.js";
 const router = express.Router();
 // get category
 router.get("/", getAllCategory);
 
 // add category
-router.post("/", verifyUser, verifyAdmin, addCategory);
+router.post("/", verifyUser,verifyToken, admin, addCategory);
 
 // get category by id
 router.get("/:categoryId", getCategoryById);
 
 // update category by id
-router.put("/:categoryId", verifyUser, verifyAdmin, updateCategoById);
+router.put("/:categoryId", verifyUser,verifyToken, admin, updateCategoById);
 
 //delete category
-router.delete("/:categoryId", verifyUser, verifyAdmin, deleteCategory);
+router.delete("/:categoryId", verifyUser,verifyToken, admin, deleteCategory);
 
 export default router;

@@ -6,7 +6,7 @@ import {
 	updateOrder,
 	deleteOrder,
 } from '../controllers/orderController.js';
-// import { admin, verifyUser } from '../middleware/auth.js';
+import { admin, verifyUser, verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -20,9 +20,9 @@ router.post('/', createOrder);
 router.get('/:orderId', getOrderById);
 
 // PUT /orders/:orderId
-router.put('/:orderId', updateOrder);
+router.put('/:orderId',verifyUser, verifyToken, admin, updateOrder);
 
 // DELETE /orders/:orderId
-router.delete('/:orderId', deleteOrder);
+router.delete('/:orderId',verifyToken, admin, deleteOrder);
 
 export default router;

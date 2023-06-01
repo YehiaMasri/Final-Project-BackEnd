@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
       return res.status(404).json({ message: "Incorrect Password" });
     }
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, role: user.role },
       process.env.SECRET_KEY
     );
     const { password, isAdmin, ...otherDetails } = user._doc;
@@ -63,8 +63,7 @@ export const deleteUser = async (req, res, next) => {
 
 export const getAllUser = async (req,res,next)=>{
   try {
-    console.log("hello")
-    const users = await User.find({});
+    const users = await User.find({role:"user"});
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({message: err.message});
@@ -122,17 +121,80 @@ export const getBookedSections = async (req, res) => {
 
 // check if the user has a token and is logged in
 export function isLoggedIn(req, res, next) {
-	let token = req.headers['access_token'] || req.cookies["access_token"]
-  console.log(token)
+	let token = req.headers['access_token'] || req.cookies["access_token"];
+	// let token = req.cookies["auth_token"];
 	if (!token) {
-
-		return res.status(403).json({ success: false, message: 'no' });
+		return res.status(403).json({ success: false, message: 'no no no ' });
 	} else {
 		try {
 			const decoded = jwt.verify(token, process.env.SECRET_KEY);
 			res.status(200).json({ success: true, message: decoded });
 		} catch (err) {
-			return res.status(401).send(err.message);
+			return res.status(401).send('Invalid Token');
 		}
 	}
+}
+
+
+// add a new admin
+export async function addAdmin(req, res, next) {
+	try {
+		let { username, phone, email, password } = req.body;
+		if (!((email && password) || (phone && password))) {
+			return res.status(400).json({
+				success: false,
+				message: 'Either phone or email is required for registration',
+			});
+		}
+		req.body.role = 'admin';
+		let doc = new User(req.body);
+		if (!(username && password)) {
+			return res
+				.status(400)
+				.json({ success: false, message: 'All inputs are required' });
+		}
+		if (req.file) {
+			doc.image = req.file.path;
+		}
+		await User.create(doc)
+			.then((response) => {
+				if (response) {
+					const token = jwt.sign(
+						{
+							user_id: response._id,
+							username,
+							phone,
+							email,
+							role: doc.role,
+						},
+						process.env.SECRET_KEY,
+						{ expiresIn: '5h' },
+					);
+					response.password = undefined;
+					// res.cookie("auth_token", token, { maxAge: 5 * 60 * 60 * 1000 });
+					res.status(200).json({ success: true, response, token });
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+
+				return err.code === 11000
+					? res.status(404).json({
+							sucess: false,
+							err: 'Email or Phone already in use',
+					  })
+					: res.status(404).json({ sucess: false, err });
+			});
+	} catch (err) {
+		return next(err);
+	}
+}
+
+export const getAllAdmin = async (req,res,next)=>{
+  try {
+    const users = await User.find({role:"admin"});
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({message: "shu fa "});
+  }
 }

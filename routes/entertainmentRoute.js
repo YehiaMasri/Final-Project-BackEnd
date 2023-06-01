@@ -7,15 +7,15 @@ import {
   getRoomById,
   getRooms,
 } from "../controllers/entertainmentController.js";
-import { verifyAdmin, verifyToken, verifyUser } from "../middleware/auth.js";
+import { admin, verifyToken, verifyUser } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get("/", getRooms);
 router.get("/:id", getRoomById);
-router.post("/addroom", verifyAdmin, createRoom);
+router.post("/addroom",verifyToken, admin, createRoom);
 router.post("/book", verifyUser, bookSection);
-router.put("/:id", verifyAdmin, editRoom);
-router.delete("/:id", verifyAdmin, deleteRoom);
+router.put("/:id",verifyToken, admin, editRoom);
+router.delete("/:id",verifyToken, admin, deleteRoom);
 
 export default router;

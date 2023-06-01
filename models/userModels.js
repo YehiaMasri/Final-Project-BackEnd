@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
+import bcrypt from "bcrypt";
 
 const { Schema, model } = mongoose;
 
@@ -12,6 +13,7 @@ let validateEmail = function (email) {
 // user model
 const userSchema = new Schema(
   {
+    
     username: {
       type: String,
       required: "username is required",
@@ -49,10 +51,10 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    isAdmin:{
-      type:Boolean,
-      default:false
-    },
+    // isAdmin:{
+    //   type:Boolean,
+    //   default:false
+    // },
     bookedSections: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -69,6 +71,21 @@ userSchema.pre(/^find/, function (next) {
   this.populate('bookedSections');
   next();
 });
+
+// hashing the password
+userSchema.pre("save", function (next) {
+  bcrypt
+      .genSalt(10)
+      .then((salt) => bcrypt.hash(this.password, salt))
+      .then((hashPassword) => {
+          this.password = hashPassword;
+          next();
+      })
+      .catch((err) => {
+          next(err);
+      });
+});
+
 // adding the pagination plugin
 userSchema.plugin(mongoosePaginate);
 

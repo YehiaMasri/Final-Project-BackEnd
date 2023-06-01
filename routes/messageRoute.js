@@ -1,7 +1,7 @@
 import express from "express";
 import {getAllMessages, addNewMessage, deleteMessage} from "../controllers/messageController.js";
 
-import {  verifyUser } from "../middleware/auth.js";
+import {  verifyToken, admin } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get("/", getAllMessages);
 
 router.post("/", addNewMessage);
 
-router.delete("/:id", deleteMessage);
+router.delete("/:id",verifyToken,admin, deleteMessage);
 
 export default router;
 
