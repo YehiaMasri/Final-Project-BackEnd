@@ -18,12 +18,12 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/addAdmin",verifyToken,admin, addAdmin)
-router.delete("/:id", verifyToken, admin,verifyUser, deleteUser);
-router.get("/users",verifyToken,verifyToken,  admin,  getAllUser);
-router.get("/:id", verifyUser,verifyToken, admin, getUserById);
-router.get("/", verifyToken, admin, getAllAdmin);
-router.put("/edit/:id", verifyUser,verifyToken,  admin, updateUser);
-router.get("/:id/booked_sections",  verifyUser, getBookedSections);
-router.get("/loggedIn",verifyToken, admin, isLoggedIn)
+router.post("/addAdmin", addAdmin)
+router.delete("/:id", deleteUser);
+router.get("/users", getAllUser);
+router.get("/:id", getUserById);
+router.get("/", getAllAdmin);
+router.put("/edit/:id", updateUser);
+router.get("/:id/booked_sections",   getBookedSections);
+router.get("/loggedIn", isLoggedIn)
 export default router;
