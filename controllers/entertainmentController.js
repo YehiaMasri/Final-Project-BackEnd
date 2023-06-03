@@ -2,15 +2,25 @@ import User from "../models/userModels.js";
 import Room from "../models/entertainmentModels.js";
 
 export const createRoom = async (req, res, next) => {
-  const newRoom = new Room(req.body);
+  // const newRoom = new Room(req.body);
 
   try {
-    const savedRoom = await newRoom.save();
-    res.status(200).json(savedRoom);
-  } catch (err) {
-    res.status(500).json(err.message);
+    let doc = new Room(req.body);
+    if (req.file) {
+      doc.image = req.file.path;
+    }
+    let product = await Room.create(doc);
+    res.status(200).json({
+      message: "Room added successfully",
+      product,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      message: error.message,
+    });
   }
-};
+}
 
 export const deleteRoom = async (req, res, next) => {
   try {
