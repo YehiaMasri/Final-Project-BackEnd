@@ -86,6 +86,15 @@ userSchema.pre("save", function (next) {
       });
 });
 
+userSchema.methods.isValidPassword = async function (password) {
+  try {
+    console.log(this.password);
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    throw error;
+  }
+};
+
 // adding the pagination plugin
 userSchema.plugin(mongoosePaginate);
 

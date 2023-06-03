@@ -11,13 +11,17 @@ const sectionSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    image: {
+      type: String,
+      trim: true,
+    },
     seat_available: {
       type: Number,
       required: true,
     },
     is_available: {
       type: Boolean,
-      required: true,
+      // required: true,
     },
     description:{
       type: String,

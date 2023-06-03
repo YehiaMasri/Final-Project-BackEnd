@@ -23,31 +23,67 @@ export const register = async (req, res, next) => {
   }
 };
 
-export const login = async (req, res, next) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).json({ message: "email not found" });
+// export const login = async (req, res, next) => {
+//   try {
+//     const user = await User.findOne({ email: req.body.email });
+//     if (!user) return res.status(404).json({ message: "email not found" });
 
-    const isPasswordCorrect = bcrypt.compareSync(
-      req.body.password,
-      user.password
-    );
-    if (!isPasswordCorrect) {
-      return res.status(404).json({ message: "Incorrect Password" });
+//     const isPasswordCorrect = bcrypt.compareSync(
+//       req.body.password,
+//       user.password
+//     );
+//     if (!isPasswordCorrect) {
+//       return res.status(404).json({ message: "Incorrect Password" });
+//     }
+//     const token = jwt.sign(
+//       { id: user._id, role: user.role },
+//       process.env.SECRET_KEY
+//     );
+//     const { password, isAdmin, ...otherDetails } = user._doc;
+//     res.cookie("access_token", token, {
+//       httpOnly: true,
+//     });
+//     res.status(200).json({ ...otherDetails, token });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+export async function login(req, res, next) {
+  try {
+    // Check if email and password are provided
+    const { email, password } = req.body;
+
+    // Check if email exists in database
+    const admin = await User.findOne({ email });
+    if (!admin) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.SECRET_KEY
-    );
-    const { password, isAdmin, ...otherDetails } = user._doc;
-    res.cookie("access_token", token, {
-      httpOnly: true,
-    });
-    res.status(200).json({ ...otherDetails, token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    // Check if password is correct#bcrypt
+    const isValidPassword = await admin.isValidPassword(password);
+    if (!isValidPassword) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Generate JWT token
+    // const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, {
+    //   expiresIn: "1h",
+    // });
+
+
+    // Generate and send authentication token
+    const token = generateToken({
+      id: admin._id,
+      email: admin.email,
+    }); // Customize token payload as needed
+    res.cookie("userToken", token); // Set the token as a cookie, or send it in the response body as needed
+    res.json({ id: admin._id, email: admin.email, token });
+  } catch (error) {
+    next(error);
   }
-};
+}
+
 
 export const deleteUser = async (req, res, next) => {
   try {

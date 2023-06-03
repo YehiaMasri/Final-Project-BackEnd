@@ -23,16 +23,25 @@ export const deleteRoom = async (req, res, next) => {
 
 export const editRoom = async (req, res, next) => {
   try {
-    const editroom = await Room.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    res.status(200).json(editroom);
-  } catch (err) {
-    next(err);
+    const product = req.params.id;
+    const payload = req.body;
+    Room.findByIdAndUpdate(product, payload).then((product) => {
+      console.log(product);
+      if (product) {
+        res.status(200).json({
+          message: "Room updated successfully",
+          product,
+        });
+      } else {
+        res.status(404).json({
+          message: "Room not found",
+        });
+      }
+    });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
   }
-};
+}
 
 export const getRooms = async (req, res, next) => {
   const { min, max, ...others } = req.query;
